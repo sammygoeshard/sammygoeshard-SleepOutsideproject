@@ -63,8 +63,9 @@ function renderCartContents() {
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   renderCartTotal(cartItems);
 
-  // Activate remove button listeners after rendering the HTML
+  // Activate remove and quantity listeners after rendering the HTML
   attachRemoveEventListeners();
+  attachQuantityEventListeners();
 }
 
 function cartItemTemplate(item) {
@@ -84,10 +85,42 @@ function cartItemTemplate(item) {
     <h2 class="card__name">${item.Name}</h2>
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: ${quantity}</p>
+  <label class="cart-card__quantity-label">
+    Qty:
+    <input
+      class="cart-card__quantity-input"
+      type="number"
+      min="1"
+      value="${quantity}"
+      data-id="${item.Id}"
+      aria-label="Quantity for ${item.Name}"
+    />
+  </label>
   <p class="cart-card__price">$${Number(item.FinalPrice || 0).toFixed(2)} each</p>
-  <p class="cart-card__price">Item total: $${lineTotal}</p>
+  <p class="cart-card__line-total">Item total: $${lineTotal}</p>
 </li>`;
+}
+
+function attachQuantityEventListeners() {
+  const quantityInputs = document.querySelectorAll(
+    ".cart-card__quantity-input",
+  );
+
+  quantityInputs.forEach((input) => {
+    input.addEventListener("change", (event) => {
+      const target = event.target;
+      const itemId = target.getAttribute("data-id");
+      let quantity = Number(target.value);
+
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        quantity = 1;
+      }
+
+      updateItemQuantity(itemId, quantity);
+      renderCartContents();
+      updateCartCount();
+    });
+  });
 }
 
 // Nueva función para escuchar los clics en las "X"
@@ -102,6 +135,15 @@ function attachRemoveEventListeners() {
 }
 
 // Nueva función para borrar el elemento del LocalStorage y refrescar la vista
+function updateItemQuantity(id, quantity) {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const item = cartItems.find((product) => product.Id === id);
+  if (item) {
+    item.quantity = quantity;
+    setLocalStorage("so-cart", cartItems);
+  }
+}
+
 function removeItemFromCart(id) {
   let cartItems = getLocalStorage("so-cart") || [];
 

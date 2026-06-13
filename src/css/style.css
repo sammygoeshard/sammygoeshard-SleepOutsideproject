@@ -239,13 +239,14 @@ button {
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;
+  grid-template-rows: auto auto auto;
+  gap: 0.5rem;
   font-size: var(--small-font);
-  /* max-height: 120px; */
-  align-items: center;
+  align-items: start;
 }
 
 .cart-card__image {
-  grid-row: 1/3;
+  grid-row: 1 / span 3;
   grid-column: 1;
 }
 
@@ -263,14 +264,31 @@ button {
   grid-column: 2;
 }
 
-.cart-card__quantity {
+.cart-card__quantity-label {
   grid-row: 1;
   grid-column: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+
+.cart-card__quantity-input {
+  width: 3.25rem;
+  padding: 0.25rem 0.35rem;
+  font-size: 0.95rem;
 }
 
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+  text-align: right;
+}
+
+.cart-card__line-total {
+  grid-row: 3;
+  grid-column: 3;
+  text-align: right;
 }
 
 .cart-total {
