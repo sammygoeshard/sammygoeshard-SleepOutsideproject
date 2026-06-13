@@ -30,13 +30,26 @@
             <legend>Address</legend>
 
             <label for="street">Street Address</label>
-            <input id="street" name="street" type="text" required minlength="3" />
+            <input
+              id="street"
+              name="street"
+              type="text"
+              required
+              minlength="3"
+            />
 
             <label for="city">City</label>
             <input id="city" name="city" type="text" required />
 
             <label for="state">State</label>
-            <input id="state" name="state" type="text" required minlength="2" maxlength="2" />
+            <input
+              id="state"
+              name="state"
+              type="text"
+              required
+              minlength="2"
+              maxlength="2"
+            />
 
             <label for="zip">Zip</label>
             <input
@@ -88,7 +101,9 @@
             <p>Subtotal: <span id="order-subtotal">$0.00</span></p>
             <p>Shipping: <span id="order-shipping">$0.00</span></p>
             <p>Tax: <span id="order-tax">$0.00</span></p>
-            <p class="checkout-total">Order Total: <span id="order-total">$0.00</span></p>
+            <p class="checkout-total">
+              Order Total: <span id="order-total">$0.00</span>
+            </p>
           </div>
 
           <button id="checkoutSubmit" type="submit">Checkout</button>

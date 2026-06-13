@@ -1,10 +1,16 @@
-import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartCount } from "./utils.mjs";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  loadHeaderFooter,
+  updateCartCount,
+} from "./utils.mjs";
 
 loadHeaderFooter();
 
 function calculateCartTotal(items) {
   return items.reduce(
-    (sum, item) => sum + Number(item.FinalPrice || 0) * Number(item.quantity || 1),
+    (sum, item) =>
+      sum + Number(item.FinalPrice || 0) * Number(item.quantity || 1),
     0,
   );
 }
@@ -56,7 +62,7 @@ function renderCartContents() {
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
   renderCartTotal(cartItems);
-  
+
   // Activate remove button listeners after rendering the HTML
   attachRemoveEventListeners();
 }
@@ -98,18 +104,17 @@ function attachRemoveEventListeners() {
 // Nueva función para borrar el elemento del LocalStorage y refrescar la vista
 function removeItemFromCart(id) {
   let cartItems = getLocalStorage("so-cart") || [];
-  
+
   // Buscamos el índice del primer elemento que coincida con el ID y lo removemos
   const index = cartItems.findIndex((item) => item.Id === id);
   if (index !== -1) {
     cartItems.splice(index, 1);
   }
-  
+
   // Actualizamos el LocalStorage, volvemos a pintar el carrito y actualizamos el contador del header
   setLocalStorage("so-cart", cartItems);
   renderCartContents();
   updateCartCount();
 }
-
 
 renderCartContents();
